@@ -68,60 +68,67 @@ const RecipeDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-gradient-hero text-primary-foreground py-8">
-        <div className="container mx-auto px-4">
+      <div className="bg-gradient-hero text-primary-foreground py-12">
+        <div className="container mx-auto px-6">
           <Link to="/">
-            <Button variant="ghost" className="mb-4 text-primary-foreground hover:bg-primary-foreground/20">
+            <Button variant="ghost" className="mb-8 text-primary-foreground hover:bg-primary-foreground/20">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Recipes
             </Button>
           </Link>
           
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="md:w-1/3">
+          <div className="flex flex-col lg:flex-row gap-12 items-start">
+            <div className="lg:w-2/5">
               <img
                 src={recipeImages[recipe.id]}
                 alt={recipe.title}
-                className="w-full h-64 md:h-80 object-cover rounded-xl shadow-glass"
+                className="w-full h-72 lg:h-96 object-cover rounded-2xl shadow-glass"
               />
             </div>
             
-            <div className="md:w-2/3">
-              <div className="mb-4">
-                <Badge className={config.className}>{config.label}</Badge>
+            <div className="lg:w-3/5 space-y-6">
+              <div>
+                <Badge className={`${config.className} text-sm px-4 py-1.5`}>
+                  {config.label}
+                </Badge>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">{recipe.title}</h1>
               
-              <div className="flex flex-wrap gap-6 text-primary-foreground/90">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5" />
+              <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+                {recipe.title}
+              </h1>
+              
+              <div className="flex flex-wrap gap-8 text-lg text-primary-foreground/90">
+                <div className="flex items-center gap-3">
+                  <Clock className="w-6 h-6" />
                   <span>{recipe.time}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users className="w-5 h-5" />
+                <div className="flex items-center gap-3">
+                  <Users className="w-6 h-6" />
                   <span>{recipe.servings} servings</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Flame className="w-5 h-5" />
+                <div className="flex items-center gap-3">
+                  <Flame className="w-6 h-6" />
                   <span>{recipe.calories} cal</span>
                 </div>
               </div>
 
-              <div className="flex gap-4 mt-6">
+              <div className="flex flex-wrap gap-4 pt-4">
                 <Button
                   onClick={handleMarkCooked}
                   disabled={isCooked}
+                  size="lg"
                   className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                 >
-                  <Check className="mr-2 h-4 w-4" />
+                  <Check className="mr-2 h-5 w-5" />
                   {isCooked ? "Marked as Cooked" : "Mark as Cooked"}
                 </Button>
                 <Button
                   onClick={handleAddToPlanner}
                   variant="outline"
-                  className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20"
+                  size="lg"
+                  className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20"
                 >
-                  <CalendarPlus className="mr-2 h-4 w-4" />
+                  <CalendarPlus className="mr-2 h-5 w-5" />
                   Add to Planner
                 </Button>
               </div>
@@ -131,19 +138,19 @@ const RecipeDetail = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 gap-8">
+      <div className="container mx-auto px-6 py-16">
+        <div className="grid lg:grid-cols-2 gap-10 max-w-7xl mx-auto">
           {/* Ingredients */}
           <Card className="backdrop-blur-md bg-gradient-card border-border/50 shadow-glass">
-            <CardHeader>
-              <CardTitle className="text-2xl">Ingredients</CardTitle>
+            <CardHeader className="pb-6">
+              <CardTitle className="text-3xl">Ingredients</CardTitle>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-3">
+              <ul className="space-y-4">
                 {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                    <span>{ingredient}</span>
+                  <li key={index} className="flex items-start gap-4 text-base">
+                    <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
+                    <span className="leading-relaxed">{ingredient}</span>
                   </li>
                 ))}
               </ul>
@@ -152,17 +159,17 @@ const RecipeDetail = () => {
 
           {/* Steps */}
           <Card className="backdrop-blur-md bg-gradient-card border-border/50 shadow-glass">
-            <CardHeader>
-              <CardTitle className="text-2xl">Cooking Steps</CardTitle>
+            <CardHeader className="pb-6">
+              <CardTitle className="text-3xl">Cooking Steps</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4 max-h-96 overflow-y-auto pr-4">
+              <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2">
                 {recipe.steps.map((step, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">
+                  <div key={index} className="flex gap-5">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-lg">
                       {index + 1}
                     </div>
-                    <p className="pt-1">{step}</p>
+                    <p className="pt-2 text-base leading-relaxed">{step}</p>
                   </div>
                 ))}
               </div>

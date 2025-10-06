@@ -50,22 +50,22 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[600px] overflow-hidden">
+      <section className="relative h-screen min-h-[600px] overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={heroKitchen}
             alt="Rustic kitchen"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-secondary/90" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-secondary/90" />
         </div>
         
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
-          <div className="backdrop-blur-sm bg-card/10 p-8 rounded-2xl border border-border/20 animate-fade-in">
-            <h1 className="text-6xl md:text-7xl font-bold text-primary-foreground mb-4">
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+          <div className="backdrop-blur-md bg-card/5 p-12 rounded-3xl border border-primary-foreground/10 animate-fade-in max-w-4xl">
+            <h1 className="text-7xl md:text-8xl font-bold text-primary-foreground mb-6 tracking-tight">
               LazyChef
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 max-w-2xl">
+            <p className="text-xl md:text-2xl text-primary-foreground/95 max-w-2xl mx-auto leading-relaxed">
               Turn leftovers into delicious meals and reduce food waste
             </p>
           </div>
@@ -73,11 +73,16 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12 animate-fade-in">
-          Smart Cooking Features
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-scale-in">
+      <section className="container mx-auto px-6 py-24">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-bold mb-4 animate-fade-in">
+            Smart Cooking Features
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Everything you need to cook smarter and waste less
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-scale-in">
           {features.map((feature) => (
             <FeatureCard key={feature.title} {...feature} />
           ))}
@@ -85,18 +90,25 @@ const Index = () => {
       </section>
 
       {/* Recipes Section */}
-      <section className="container mx-auto px-4 py-16 bg-muted/30">
-        <h2 className="text-4xl font-bold text-center mb-12">
-          Popular Recipes
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {recipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              {...recipe}
-              image={recipeImages[recipe.id]}
-            />
-          ))}
+      <section className="bg-muted/30 py-24">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold mb-4">
+              Popular Recipes
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Discover delicious ways to use your ingredients
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {recipes.map((recipe) => (
+              <RecipeCard
+                key={recipe.id}
+                {...recipe}
+                image={recipeImages[recipe.id]}
+              />
+            ))}
+          </div>
         </div>
       </section>
     </div>
