@@ -9,6 +9,7 @@ import IngredientManager from "./pages/IngredientManager";
 import RecipeGenerator from "./pages/RecipeGenerator";
 import MealPlanner from "./pages/MealPlanner";
 import EcoDashboard from "./pages/EcoDashboard";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/recipe/:id" element={<RecipeDetail />} />
           <Route path="/ingredient-manager" element={<IngredientManager />} />
           <Route path="/recipe-generator" element={<RecipeGenerator />} />

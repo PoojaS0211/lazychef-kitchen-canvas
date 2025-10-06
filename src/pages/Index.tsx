@@ -1,7 +1,12 @@
-import { ChefHat, BookOpen, Calendar, Leaf } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChefHat, BookOpen, Calendar, Leaf, LogIn, LogOut } from "lucide-react";
 import { FeatureCard } from "@/components/FeatureCard";
 import { RecipeCard } from "@/components/RecipeCard";
 import { recipes } from "@/data/recipes";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { User } from "@supabase/supabase-js";
 import heroKitchen from "@/assets/hero-kitchen.jpg";
 import quinoaBowl from "@/assets/recipe-quinoa-bowl.jpg";
 import chickenSalad from "@/assets/recipe-chicken-salad.jpg";
@@ -11,6 +16,27 @@ import greekSalad from "@/assets/recipe-greek-salad.jpg";
 import risotto from "@/assets/recipe-risotto.jpg";
 
 const Index = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
+
   const features = [
     {
       title: "Ingredient Manager",
@@ -51,6 +77,29 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen min-h-[600px] overflow-hidden">
+        {/* Auth Button */}
+        <div className="absolute top-6 right-6 z-20">
+          {user ? (
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
+          ) : (
+            <Button
+              onClick={() => navigate("/auth")}
+              variant="outline"
+              className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20"
+            >
+              <LogIn className="mr-2 h-4 w-4" />
+              Login
+            </Button>
+          )}
+        </div>
+
         <div className="absolute inset-0">
           <img
             src={heroKitchen}
