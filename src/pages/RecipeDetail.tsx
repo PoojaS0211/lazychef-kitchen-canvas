@@ -25,7 +25,7 @@ const RecipeDetail = () => {
     "grilled-chicken-salad": chickenSalad,
     "vegetable-stir-fry": stirFry,
     "pasta-carbonara": carbonara,
-    "fresh-greek-salad": greekSalad,
+    "greek-salad": greekSalad,
     "mushroom-risotto": risotto,
   };
 
