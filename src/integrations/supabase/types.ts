@@ -14,7 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      user_cook_later: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          recipe_id: string
+          reminder_date: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          recipe_id: string
+          reminder_date?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          recipe_id?: string
+          reminder_date?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_eco_stats: {
+        Row: {
+          carbon_saved_kg: number | null
+          cooked_at: string
+          id: string
+          ingredients_used: string[]
+          recipe_id: string
+          servings_made: number
+          user_id: string
+          waste_saved_grams: number | null
+        }
+        Insert: {
+          carbon_saved_kg?: number | null
+          cooked_at?: string
+          id?: string
+          ingredients_used?: string[]
+          recipe_id: string
+          servings_made?: number
+          user_id: string
+          waste_saved_grams?: number | null
+        }
+        Update: {
+          carbon_saved_kg?: number | null
+          cooked_at?: string
+          id?: string
+          ingredients_used?: string[]
+          recipe_id?: string
+          servings_made?: number
+          user_id?: string
+          waste_saved_grams?: number | null
+        }
+        Relationships: []
+      }
+      user_favorites: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          recipe_id: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          recipe_id: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          recipe_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

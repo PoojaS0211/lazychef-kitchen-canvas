@@ -3,9 +3,13 @@ import { recipes } from "@/data/recipes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Users, Flame, ArrowLeft, Check, CalendarPlus } from "lucide-react";
-import { useState } from "react";
+import { Clock, Users, Flame, ArrowLeft, Check, CalendarPlus, Heart, Clock as ClockIcon } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useCookLater } from "@/hooks/useCookLater";
+import { supabase } from "@/integrations/supabase/client";
+import { User } from "@supabase/supabase-js";
 import quinoaBowl from "@/assets/recipe-quinoa-bowl.jpg";
 import chickenSalad from "@/assets/recipe-chicken-salad.jpg";
 import stirFry from "@/assets/recipe-stir-fry.jpg";
@@ -17,6 +21,24 @@ const RecipeDetail = () => {
   const { id } = useParams();
   const { toast } = useToast();
   const [isCooked, setIsCooked] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites(user?.id);
+  const { isCookLater, addToCookLater, removeFromCookLater } = useCookLater(user?.id);
   
   const recipe = recipes.find((r) => r.id === id);
 
@@ -114,14 +136,60 @@ const RecipeDetail = () => {
 
               <div className="flex flex-wrap gap-4 pt-4">
                 <Button
+                  onClick={() => {
+                    if (!id) return;
+                    if (isFavorite(id)) {
+                      removeFavorite(id);
+                    } else {
+                      addFavorite(id);
+                    }
+                  }}
+                  variant={isFavorite(id || "") ? "default" : "outline"}
+                  size="lg"
+                  className={
+                    isFavorite(id || "")
+                      ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                      : "border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20"
+                  }
+                >
+                  <Heart
+                    className={`mr-2 h-5 w-5 ${isFavorite(id || "") ? "fill-current" : ""}`}
+                  />
+                  {isFavorite(id || "") ? "Favorited" : "Add to Favorites"}
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    if (!id) return;
+                    if (isCookLater(id)) {
+                      removeFromCookLater(id);
+                    } else {
+                      addToCookLater(id);
+                    }
+                  }}
+                  variant={isCookLater(id || "") ? "default" : "outline"}
+                  size="lg"
+                  className={
+                    isCookLater(id || "")
+                      ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                      : "border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20"
+                  }
+                >
+                  <ClockIcon className="mr-2 h-5 w-5" />
+                  {isCookLater(id || "") ? "Saved to Cook Later" : "Cook Later"}
+                </Button>
+
+                <Button
                   onClick={handleMarkCooked}
                   disabled={isCooked}
                   size="lg"
-                  className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                  variant="outline"
+                  className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/20"
                 >
                   <Check className="mr-2 h-5 w-5" />
                   {isCooked ? "Marked as Cooked" : "Mark as Cooked"}
                 </Button>
+
                 <Button
                   onClick={handleAddToPlanner}
                   variant="outline"

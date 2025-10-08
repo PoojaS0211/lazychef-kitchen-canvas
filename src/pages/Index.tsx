@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChefHat, BookOpen, Calendar, Leaf, LogIn, LogOut } from "lucide-react";
+import { ChefHat, BookOpen, Calendar, Leaf, LogIn, LogOut, Heart, Clock } from "lucide-react";
 import { FeatureCard } from "@/components/FeatureCard";
 import { RecipeCard } from "@/components/RecipeCard";
 import { recipes } from "@/data/recipes";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { User } from "@supabase/supabase-js";
 import heroKitchen from "@/assets/hero-kitchen.jpg";
 import quinoaBowl from "@/assets/recipe-quinoa-bowl.jpg";
@@ -77,17 +78,36 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen min-h-[600px] overflow-hidden">
-        {/* Auth Button */}
-        <div className="absolute top-6 right-6 z-20">
+        {/* Auth & Theme Buttons */}
+        <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+          <ThemeToggle />
           {user ? (
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
+            <>
+              <Button
+                onClick={() => navigate("/favorites")}
+                variant="outline"
+                className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20"
+              >
+                <Heart className="mr-2 h-4 w-4" />
+                Favorites
+              </Button>
+              <Button
+                onClick={() => navigate("/cook-later")}
+                variant="outline"
+                className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20"
+              >
+                <Clock className="mr-2 h-4 w-4" />
+                Cook Later
+              </Button>
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </Button>
+            </>
           ) : (
             <Button
               onClick={() => navigate("/auth")}

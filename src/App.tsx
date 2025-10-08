@@ -8,9 +8,11 @@ import RecipeDetail from "./pages/RecipeDetail";
 import IngredientManager from "./pages/IngredientManager";
 import RecipeGenerator from "./pages/RecipeGenerator";
 import MealPlanner from "./pages/MealPlanner";
-import EcoDashboard from "./pages/EcoDashboard";
+import EcoDashboard from "./pages/EnhancedEcoDashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import Favorites from "./pages/Favorites";
+import CookLater from "./pages/CookLater";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,8 @@ const App = () => (
           <Route path="/recipe-generator" element={<RecipeGenerator />} />
           <Route path="/meal-planner" element={<MealPlanner />} />
           <Route path="/eco-dashboard" element={<EcoDashboard />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/cook-later" element={<CookLater />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
